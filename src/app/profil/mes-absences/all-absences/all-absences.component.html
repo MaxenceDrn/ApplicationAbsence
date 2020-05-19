@@ -1,0 +1,19 @@
+<div fxLayoutAlign="center">
+    <mat-card fxFlex="100">
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let abs of tab">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{abs[0]}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+            <mat-list *ngFor="let a of abs[2]">
+                <mat-list-item>{{a[3]}} de {{a[0]}}, le {{a[1] | date: 'dd/MM/yyyy'}} de {{a[1] | date : 'H:mm'}} à {{a[2] | date : 'H:mm'}}</mat-list-item>
+            </mat-list>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+    </mat-card>
+</div>

@@ -1,0 +1,98 @@
+<div fxFlex="100" fxLayoutAlign="center"  *ngIf=" !loading && !loading1 && !loading2 && !loading3">
+    <mat-card fxFlex="80" *ngIf="nbAbs>0" >
+        <mat-card-content>
+            <mat-card-title>
+                Absences de: {{personne[0].fname}} {{personne[0].lname}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{personne[0].fname}} à été absent à {{nbAbs}} cour(s) pour un total de {{nbHAbs[0]}}
+            </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-content>
+            <mat-card-title>
+                Liste des absences par modules:
+            </mat-card-title>
+            <div class="basic-container">
+                <div fxFlex="100" fxLayoutAlign="center">
+                    <mat-card-content><button routerLink="/homeDir/editMultiAbs/{{id}}" mat-button color="primary">Modifier plusieurs absences</button></mat-card-content>
+                </div>
+            </div>
+            <div class="basic-container">
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let abs of absParModule">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{abs[0]}}
+                            </mat-panel-title>
+                            <mat-panel-description fxFlex="80">
+                                Temps d'absence: {{abs[1]}}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+
+                        <div class="example-container mat-elevation-z8">
+                            <table mat-table [dataSource]="abs[2]" *ngIf="!reload">
+
+                                <ng-container matColumnDef="Début" >
+                                    <th mat-header-cell *matHeaderCellDef> Début </th>
+                                    <td mat-cell  *matCellDef="let element"> {{element[1]}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Fin" >
+                                    <th mat-header-cell *matHeaderCellDef> Fin </th>
+                                    <td mat-cell  *matCellDef="let element"> {{element[2]}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Etat" >
+                                    <th mat-header-cell *matHeaderCellDef> Etat </th>
+                                    <td mat-cell  *matCellDef="let element"> {{element[5]}}</td>
+                                </ng-container>
+
+
+                                <ng-container matColumnDef="Durée" >
+                                    <th mat-header-cell *matHeaderCellDef> Durée </th>
+                                    <td mat-cell  *matCellDef="let element"> {{element[0]}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Type" >
+                                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                                    <td mat-cell  *matCellDef="let element"> {{element[3]}} </td>
+                                </ng-container>
+
+                                <ng-container  matColumnDef="Justificatif">
+                                    <th mat-header-cell *matHeaderCellDef> Justificatif </th>
+                                    <td mat-cell    *matCellDef="let element"> <button *ngIf="element[6] != 'Aucun'" (click)="openJusti(element[4][0])" mat-stroked-button >Afficher</button><p *ngIf="element[6] == 'Aucun'">{{element[6]}}</p> </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Modifier">
+                                    <th mat-header-cell *matHeaderCellDef> Modifier </th>
+                                    <td mat-cell  *matCellDef="let element"> <button [routerLink]="['/homeDir/editAbs',element[4][1],element[4][0]]" mat-stroked-button>Modifier</button> </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Supprimer" >
+                                    <th mat-header-cell *matHeaderCellDef> Supprimer </th>
+                                    <td mat-cell  *matCellDef="let element"> <button (click)="supprimerAbs(element[4])"  mat-stroked-button>Supprimer</button></td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+
+
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="nbAbs<=0">
+        <mat-card-title>
+            {{personne[0].fname}} {{personne[0].lname}} n'a pas d'absences !
+        </mat-card-title>
+    </mat-card>
+</div>
+<div fxFlex="100" fxLayoutAlign="center" *ngIf=" loading || loading1 || loading2 || loading3">
+    <mat-spinner></mat-spinner>
+</div>
+

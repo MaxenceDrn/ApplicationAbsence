@@ -1,0 +1,19 @@
+<div fxFlexFill fxLayoutAlign="space-around center" *ngIf="loading" style="margin-top: 5%">
+    <mat-spinner style="margin-top: 15%;"></mat-spinner>
+</div>
+
+<div *ngIf="!loading" fxFlexFill fxLayoutAlign="center center">
+    <mat-card fxFlex="100">
+        <mat-card-title fxLayoutAlign="center">Votre profil</mat-card-title>
+
+
+        <mat-card-content>
+            <mat-tab-group>
+                <mat-tab label="Mes Informations"> <app-mes-informations [personne]="personne"></app-mes-informations> </mat-tab>
+                <mat-tab label="Mes Absences"> <app-mes-absences></app-mes-absences> </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+
+
+</div>

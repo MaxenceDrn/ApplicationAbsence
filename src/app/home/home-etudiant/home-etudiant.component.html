@@ -1,0 +1,20 @@
+
+<full-calendar defaultView="timeGridWeek"
+               [header]="{
+               left:'dayGridMonth,timeGridWeek,timeGridDay',
+               center:'title',
+               right:'prev,next today'
+               }"
+               minTime="6:00"
+               maxTime="20:00"
+               height="auto"
+               locale="fr"
+               [nowIndicator]="true"
+               [hiddenDays]="[0]"
+               [events]="cours"
+               [plugins]="calendarPlugins"
+               [allDaySlot]="false"
+               *ngIf="!loading"
+></full-calendar>
+
+

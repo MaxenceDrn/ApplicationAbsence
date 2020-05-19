@@ -1,0 +1,192 @@
+<div   fxFlexFill fxLayoutAlign="center center">
+  <mat-card fxFlex="60" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" style="margin-top: 2%;">
+    <mat-toolbar color="primary">
+      <span style="width: 100%; text-align: center;">Enregistrement d'un utilisateur</span>
+    </mat-toolbar>
+
+    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-card-content fxLayout="row row-wrap" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+
+        <div fxFlex="60" fxLayoutAlign="center">
+          <!-- Rôle -->
+        <mat-form-field fxFlex="40" fxLayoutGap="10px">
+          <mat-label>Rôle</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{role}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="role.invalid && (role.dirty || role.touched)" class="mat-error">
+            <div *ngIf="role?.errors.required">Le rôle est obligatoire.</div>
+          </div>
+        </mat-form-field>
+
+        <div fxFlex="20"></div>
+
+        <!-- Genre -->
+        <mat-form-field fxFlex="40">
+          <mat-label>Genre</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option *ngFor="let gender of genders" [value]="gender">
+              {{gender}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="mat-error">
+            <div *ngIf="gender?.errors.required">Le genre est obligatoire.</div>
+          </div>
+        </mat-form-field>
+        </div>
+        <div fxFlex="40"></div>
+
+        <div fxFlex="100">
+          <div fxFlex="35"></div>
+          <mat-form-field fxFlex="30">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput formControlName="naissance" [matDatepicker]="picker">
+            <div *ngIf="naissance.invalid && (naissance.dirty || naissance.touched)" class="mat-error">
+              <div *ngIf="naissance?.errors.required">La date de naissance est obligatoire.</div>
+            </div>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <div fxFlex="35"></div>
+        </div>
+        
+        
+        
+
+        <div fxLayoutAlign="center" fxFlex="80">
+          <!-- Nom -->
+          <mat-form-field fxFlex="45">
+            <input matInput formControlName="nom" placeholder="Nom">
+            <div *ngIf="nom.invalid && (nom.dirty || nom.touched)" class="mat-error">
+              <div *ngIf="nom?.errors.required">Le nom est obligatoire.</div>
+            </div>
+          </mat-form-field>
+
+          <div fxFlex="10"></div>
+  
+          <!-- Prénom -->
+          <mat-form-field fxFlex="45">
+            <input matInput formControlName="prenom" placeholder="Prénom">
+            <div *ngIf="prenom.invalid && (prenom.dirty || prenom.touched)" class="mat-error">
+              <div *ngIf="prenom?.errors.required">Le Prénom est obligatoire.</div>
+            </div>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20"></div>
+        
+
+        <div fxLayoutAlign="center" fxFlex="80">
+          <!-- Email -->
+          <mat-form-field fxFlex="45">
+            <input matInput formControlName="email" placeholder="Email">
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mat-error">
+              <div *ngIf="email?.errors.required">L'email est obligatoire.</div>
+              <div *ngIf="email?.errors.email">Format d'adresse invalide. ex: 'robert@duchmol.fr'</div>
+            </div>
+          </mat-form-field>
+
+          <div fxFlex="10"></div>
+
+          <!-- Téléphone -->
+          <mat-form-field fxFlex="45">
+            <input matInput formControlName="telephone" placeholder="Téléphone">
+            <div *ngIf="telephone.invalid && (telephone.dirty || telephone.touched)" class="mat-error">
+              <div *ngIf="telephone?.errors.required">Le numéro de téléphone est obligatoire.</div>
+              <div *ngIf="telephone?.errors.pattern">Format de numéro invalide. ex: '0123456789'</div>
+            </div>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20"></div>
+
+
+
+        <div formGroupName="pwd" fxLayoutAlign="center" fxFlex="80">
+          <!-- Password -->
+          <mat-form-field fxFlex="45">
+            <input matInput type="password" placeholder="Password (Minimum 6 caractères)" formControlName="password">
+          </mat-form-field>
+
+          <div fxFlex="10"></div>
+
+          <!-- Confirm Password -->
+          <mat-form-field fxFlex="45">
+            <input matInput type="password" placeholder="Confirmation (Minimum 6 caractères)" formControlName="confirmPassword">
+          </mat-form-field> 
+        </div>
+        <div fxFlex="20"></div>
+
+
+        <div fxFlex="80" *ngIf="(password.invalid && (password.dirty || password.touched)) || (confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched))">
+          <div fxFlex="100">
+              <div class="mat-error" fxFlex="45" *ngIf="password.invalid && (password.dirty || password.touched); else hidden">
+                <div *ngIf="password?.errors.required">Le mot de passe est obligatoire.</div>
+              </div>
+              <ng-template #hidden>
+                <div fxFlex="45"></div>
+              </ng-template>
+
+              <div fxFlex="10"></div>
+               
+
+              <div class="mat-error" fxFlex="45" *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+                <div *ngIf="confirmPassword?.errors.required">La confirmation est obligatoire.</div>
+                <div *ngIf="confirmPassword?.errors.minLength">Il faut au moins 6 caractères.</div>
+              </div>
+            </div>
+        </div>
+        <div fxFlex="80" class="mat-error" *ngIf="password.value !== confirmPassword.value">
+          Les mots de passes de correspondent pas.
+        </div>
+        <div fxFlex="20"></div>
+
+
+        <div fxLayoutAlign="center" fxFlex="80">
+          <!-- Adresse -->
+          <mat-form-field fxFlex="45">
+            <input matInput formControlName="adresse" placeholder="Adresse (ex: '12 rue de l'iut')">
+            <div *ngIf="adresse.invalid && (adresse.dirty || adresse.touched)" class="mat-error">
+              <div *ngIf="adresse?.errors.required">L'adresse est obligatoire.</div>
+            </div>
+          </mat-form-field>
+
+          <div fxFlex="10"></div>
+
+          <!-- Ville -->
+          <mat-form-field fxFlex="15">
+            <input matInput formControlName="ville" placeholder="Ville">
+            <div *ngIf="ville.invalid && (ville.dirty || ville.touched)" class="mat-error">
+              <div *ngIf="ville?.errors.required">La ville est obligatoire.</div>
+            </div>
+          </mat-form-field>
+
+          <div fxFlex="5"></div>
+
+          <!-- Code Postal -->
+          <mat-form-field fxFlex="25">
+            <input matInput formControlName="cp" placeholder="Code Postal">
+            <div *ngIf="cp.invalid && (cp.dirty || cp.touched)" class="mat-error">
+              <div *ngIf="cp?.errors.required">Le code postal est obligatoire.</div>
+              <div *ngIf="cp?.errors.pattern">Format invalide. ex: '62100'</div>
+            </div>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20"></div>
+      
+
+
+      </mat-card-content>
+
+      <button [disabled]="!registerForm.valid" mat-stroked-button color="accent" class="btn-block">Valider</button>
+      <hr>
+    </form>
+    <mat-card *ngIf="error" class="mat-error">
+      <mat-card-header>
+        {{error.error || error}}</mat-card-header>
+      <mat-card-content *ngIf="error.body">
+        {{error.body|json}}
+      </mat-card-content>
+    </mat-card>
+  </mat-card>
+</div>

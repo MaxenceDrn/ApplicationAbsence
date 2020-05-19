@@ -1,0 +1,110 @@
+<div fxFlex="100" fxLayoutAlign="center">
+    <mat-card fxFlex="80" style="margin-top: 2%;">
+        <div fxLayout="row">
+            <mat-card-title fxFlex="100">Ajouter une Absence</mat-card-title>
+        </div>
+
+        <div fxLayout="row">
+            <mat-card-content fxFlex="100" fxLayoutAlign="center" >
+                <mat-card fxFlex="80">
+                    <mat-card-title>1- Choisissez la promotion dans laquelle l'étudiant(e) se trouve.</mat-card-title>
+
+                    <mat-card-content *ngIf="!loading">
+                        <span>Département :</span>
+                        <mat-form-field>
+                            <mat-select  (valueChange)="onChangeDept($event)" style="text-align: center">
+                                <mat-option *ngFor="let departement of dept" [value]="departement" >{{departement}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <br />
+                        <span>Promotion :</span>
+                        <mat-form-field>
+                            <mat-select (valueChange)="onChangePromo($event)" style="text-align: center">
+                                <mat-option *ngFor="let promotions of promo" [value]="promotions" >{{promotions}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <br />
+                        <span>Groupe :</span>
+                        <mat-form-field>
+                            <mat-select (valueChange)="onChangeGroupe($event)" style="text-align: center">
+                                <mat-option *ngFor="let nom of name" [value]="nom" >{{nom}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-card-content>
+
+                    <mat-card-content *ngIf="loading">
+                        <div fxFlexFill fxLayoutAlign="space-around center" *ngIf="loading" style="margin-top: 5%">
+                            <mat-spinner></mat-spinner>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-card-content>
+
+        </div>
+
+        <div fxLayout="row" *ngIf="tabEtuInit" fxLayoutAlign="center">
+            <mat-tab-group  fxFlex="80">
+                <mat-tab label="Par étudiant">
+                    <div fxLayout="row" *ngIf="tabEtuInit">
+                        <mat-card-content fxFlex="100" fxLayoutAlign="center">
+                            <mat-card fxFlex="100">
+                                <mat-card-title>2- Choisissez l'étudiant.</mat-card-title>
+
+                                <mat-card-content *ngIf="tabEtu.length == 0">
+                                    Il n'y a aucun étudiant dans ce groupe.
+                                </mat-card-content>
+
+                                <mat-card-content *ngIf="tabEtu.length != 0">
+                                    <mat-form-field>
+                                        <mat-select (valueChange)="selectedEtu($event)">
+                                            <mat-option *ngFor="let etu of tabEtu" [value]="etu">
+                                                {{etu.fname}} {{etu.lname}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </div>
+
+                    <div fxLayout="row" *ngIf="idEtudiant !== null">
+                        <mat-card-content fxFlex="100" fxLayoutAlign="center">
+                            <mat-card fxFill fxFlex="100">
+                                <mat-card-title>3- Choisissez le type d'insertion.</mat-card-title>
+
+                                <mat-card-content style="min-height: 550px;">
+                                    <mat-tab-group>
+                                        <mat-tab label="Par crénaux">
+                                            <app-par-etudiant-crenaux [cours]="cours" [idEtudiant]="idEtudiant"></app-par-etudiant-crenaux>
+                                        </mat-tab>
+
+                                        <mat-tab label="Par demi-journée"> <app-par-demi-journee [cours]="cours" [idEtudiant]="idEtudiant"></app-par-demi-journee> </mat-tab>
+
+                                        <mat-tab label="Par Journée"> <app-par-jour [cours]="cours" [idEtudiant]="idEtudiant"></app-par-jour> </mat-tab>
+
+                                        <mat-tab label="Personnalisé"> <app-personnalise [cours]="cours" [idEtudiant]="idEtudiant"></app-personnalise> </mat-tab>
+                                    </mat-tab-group>
+                                </mat-card-content>
+
+
+
+                            </mat-card>
+                        </mat-card-content>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Par crénaux">
+                    <div *ngIf="ready">
+                        <app-par-crenaux [group]="selectName" [promo]="selectPromo" [cours]="coursCrenaux" [etuGroupe]="tabEtu" *ngIf="selectPromo || selectName"></app-par-crenaux>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+
+
+
+
+    </mat-card>
+</div>

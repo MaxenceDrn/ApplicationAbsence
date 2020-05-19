@@ -1,0 +1,12 @@
+<div *ngIf="!loading" fxFlex="100" fxLayoutAlign="center">
+    <mat-card fxFlex="70" style="margin-top: 2%;">
+        <mat-card-title>Liste des utilisateurs</mat-card-title>
+
+        <mat-card-content>
+            <mat-list *ngFor="let pers of tabPers">
+                <mat-list-item>{{pers.nom}} {{pers.prenom}} | {{pers.dateNaissance}}<button routerLink="/editUser/{{pers.id}}" mat-button>Modifier</button><button *ngIf="currentUser.id !== pers.id" (click)="deleteUser(pers.user.id)" mat-button>Supprimer</button></mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+</div>

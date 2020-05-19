@@ -1,0 +1,75 @@
+<div fxFlex="100" fxLayoutAlign="center">
+    <mat-card fxFlex="80" style="margin-top: 2%;">
+        <div fxLayout="row">
+            <mat-card-title fxFlex="100">Rechercher un étudiant</mat-card-title>
+        </div>
+
+        <div fxLayout="row">
+            <mat-card-content fxFlex="100" fxLayoutAlign="center">
+                <mat-card fxFlex="80">
+                    <mat-card-title>Choisissez le département, la promotion et le groupe de l'étudiant(e)</mat-card-title>
+
+
+
+                    <mat-card-content >
+                        <span>Département :</span>
+                        <mat-form-field>
+                            <mat-select  (valueChange)="onChangeDept($event)">
+                                <mat-option *ngFor="let departement of dept" [value]="departement" >{{departement}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <span *ngIf="selectPromo != 'null' || selectName != 'null'">Rechercher : </span>
+                        <span *ngIf="selectPromo != 'null'|| selectName != 'null'">
+                                <mat-form-field class="example-full-width">
+                                    <input  matInput (change)="recherche($event)">
+                                </mat-form-field>
+                        </span>
+
+                        <br />
+                        <span>Promotion :</span>
+                        <mat-form-field>
+                            <mat-select (valueChange)="onChangePromo($event)">
+                                <mat-option *ngFor="let promotions of promo" [value]="promotions" >{{promotions}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <br />
+                        <span>Groupe :</span>
+                        <mat-form-field>
+                            <mat-select (valueChange)="onChangeName($event)">
+                                <mat-option *ngFor="let nom of name" [value]="nom" >{{nom}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-card-content>
+                </mat-card>
+            </mat-card-content>
+        </div>
+
+        <div fxLayout="row" *ngIf="tabEtuSearch.length > 0">
+            <mat-card-content fxFlex="100" fxLayoutAlign="center">
+                <mat-card fxFlex="80">
+                    <mat-card-title *ngIf="selectName !='null'">Liste des étudiants de {{selectDept}} -> {{selectPromo}} -> {{selectName}}</mat-card-title>
+                    <mat-card-title *ngIf="selectName =='null'">Liste des étudiants de {{selectDept}} -> {{selectPromo}}</mat-card-title>
+
+                    <mat-list *ngFor="let etudiant of tabEtuSearch" role="list">
+                        <mat-list-item role="listitem">{{etudiant[1]}}    <button value="{{etudiant}}" [routerLink]="['/homeDir', etudiant[0]]"  mat-stroked-button>Informations</button></mat-list-item>
+                    </mat-list>
+                </mat-card>
+            </mat-card-content>
+
+        </div>
+        <div >
+            <mat-card-content fxFlex="100" fxLayoutAlign="center">
+                <mat-card fxFlex="60" *ngIf="(selectPromo != 'null' || selectName != 'null') &&(tabEtu.length == 0 || tabEtuSearch.length == 0)">
+                    <mat-card-content fxLayout="row">
+                        <mat-card-title *ngIf="tabEtu.length == 0 ">Il n'y a aucun étudiant dans ce groupe.</mat-card-title>
+                        <mat-card-title *ngIf="tabEtuSearch.length == 0 && tabEtu.length !== 0">Aucun résultat </mat-card-title>
+                    </mat-card-content>
+
+                </mat-card>
+            </mat-card-content>
+        </div>
+
+    </mat-card>
+</div>

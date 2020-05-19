@@ -1,0 +1,78 @@
+<div fxFlex="100" fxLayoutAlign="center" *ngIf="!loadingEtu && !loadingAbs">
+    <mat-card fxFlex="80"  >
+        <mat-card-content >
+            <mat-card-title>
+                Absence de {{currentEtu.fname}} {{currentEtu.lname}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                Ajout de justificatif pour plusieurs jours.
+            </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-content >
+
+            <mat-card-title>
+                Modifier Absence
+            </mat-card-title>
+            <mat-card-content>
+                <div fxLayoutAlign="center" fxFlex="100">
+                    <!-- Date Debut -->
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Date de début de Validité</mat-label>
+                        <input matInput [matDatepicker]="pickerStart" (dateChange)="selectDateDebutJusti($event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerStart></mat-datepicker>
+                    </mat-form-field>
+
+                    <div fxFlex="10"></div>
+
+                    <!-- Date Fin -->
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Date de fin de Validité</mat-label>
+                        <input matInput [matDatepicker]="pickerEnd" (dateChange)="selectDateFinJusti($event)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerEnd></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-content>
+                <div fxLayoutAlign="center" fxFlex="100">
+                    <!-- Raison -->
+                    <mat-form-field fxFlex="45">
+                        <input (change)="reasonChange($event)"  matInput placeholder="Raison">
+                    </mat-form-field>
+
+                    <div fxFlex="10"></div>
+
+                    <!-- Etat -->
+                    <mat-form-field fxFlex="45">
+                        <mat-label>Etat</mat-label>
+                        <mat-select (valueChange)="etatChange($event)" >
+                            <mat-option *ngFor="let etat of tabEtat" [value]="etat">{{etat}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-content>
+                <div>
+                    <ngx-dropzone (change)="onSelect($event)">
+                        <ngx-dropzone-label>Déposez le justificatif !</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+
+            </mat-card-content>
+            <mat-card-content fxLayoutAlign="center">
+                <button (click)="modifierAbs()" fxFlex="20" mat-stroked-button class="btn">Valider les modifications</button>
+                <span fxFlex="10"></span>
+                <button fxFlex="20" [routerLink]="['/homeDir',idEtu]" mat-stroked-button class="btn">Annuler</button>
+            </mat-card-content>
+
+        </mat-card-content>
+    </mat-card>
+</div>
+<div fxFlex="100" fxLayoutAlign="center" *ngIf=" loadingAbs || loadingEtu ">
+    <mat-spinner></mat-spinner>
+</div>
+

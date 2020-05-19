@@ -1,0 +1,39 @@
+<div fxFlexFill>
+    <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="center">
+            <mat-form-field fxFlex="30">
+                <mat-label>Date de l'absence</mat-label>
+                <input matInput (dateChange)="pickDate($event)" [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <mat-card-content *ngIf="selectedCours != null">
+            <mat-card-content *ngIf="selectedCours.length === 0">
+                L'étudiant n'avait pas cours ce jour là.
+            </mat-card-content>
+            <mat-card-content *ngIf="selectedCours.length !== 0">
+                <mat-selection-list (selectionChange)="selectCrenaux($event)" *ngFor="let cour of selectedCours">
+                    <mat-list-option [value]="cour.id">
+                        {{cour.module}} | {{cour.start | date: 'H:mm'}}-{{cour.end | date: 'H:mm'}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </mat-card-content>
+        </mat-card-content>
+
+
+        <div fxLayoutAlign="center" fxLayout="row" *ngIf="date">
+            <a (click)="onSubmit()"><button mat-stroked-button>Ajouter l'absence</button></a>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" style="margin-top: 2%;">
+            <mat-card-content *ngIf="loading" fxFlex="100">
+                <div fxFlexFill fxLayoutAlign="space-around center" *ngIf="loading" style="margin-top: 5%">
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="!loading && state" fxLayoutAlign="center">{{state}}</mat-card-content>
+        </div>
+
+    </mat-card-content>
+</div>

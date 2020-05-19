@@ -1,0 +1,36 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-toolbar-row>
+        <span *ngIf="currentUser">
+            <a mat-button routerLink="/home" *ngIf="currentUser">
+               Home
+            </a>
+            <span *ngIf="currentUser.role == 'Admin'">
+                <a mat-button routerLink="/register" *ngIf="currentUser">
+                    Créer utilisateur
+                </a>
+            </span>
+            <a mat-button routerLink="/absences" *ngIf="currentUser.role === 'Secretaire' || currentUser.role === 'Admin'">Ajouter Absence</a>
+            <a mat-button routerLink="/homeSec" *ngIf="currentUser.role === 'Secretaire' || currentUser.role === 'Admin'">Emploi du temps</a>
+            <a mat-button routerLink="/mesAbsences" *ngIf="currentUser.role === 'Etudiant'">Mes Absences</a>
+            <a mat-button routerLink="/listUser" *ngIf="currentUser.role === 'Admin'">Modifier utilisateur</a>
+            <a mat-button routerLink="/homeDir" *ngIf="currentUser.role === 'Admin'">Modifier absences</a>
+        </span>
+
+
+        <h1 style="width: 100%; text-align: center;">Absences</h1>
+        <div><a routerLink="/"></a></div>
+        <span class="nav-tool-items">
+    <div *ngIf="currentUser;">
+      {{currentUser.user.name}}
+        <button mat-icon-button [mat-menu-trigger-for]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu x-position="before" #menu="matMenu">
+        <button mat-menu-item (click)="profil()">Mon profil</button>
+        <button mat-menu-item routerLink="/login" (click)="logout()">Deconnexion</button>
+      </mat-menu>
+    </div>
+  </span>
+    </mat-toolbar-row>
+
+</mat-toolbar>
